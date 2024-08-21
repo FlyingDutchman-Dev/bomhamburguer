@@ -1,5 +1,5 @@
 class Product {
-  final int? id;
+  final int id;
   final String sandwichName;
   final double price;
 

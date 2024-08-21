@@ -1,4 +1,5 @@
 import 'package:bomhamburguer/data/database.dart';
+import 'package:bomhamburguer/data/product_table.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -10,6 +11,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   String _dbStatus = "Clique para inicializar o banco de dados";
+  String _tableStatus = "Clique para verificar a tabela 'Product'";
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +28,19 @@ class _HomeState extends State<Home> {
             ElevatedButton(onPressed: _initializeDatabase,
                 child: const Text("Iniciar banco de dados"),
             ),
+            const SizedBox(height: 80),
+            Text(_tableStatus),
+            const SizedBox(height: 20),
+            ElevatedButton(onPressed: _checkProductTable,
+              child: const Text("Verificar tabela Product"),
+            ),
           ],
         ),
       ),
     );
   }
 
+  // Função para testar o banco de dados
   Future<void> _initializeDatabase() async {
     try {
       DatabaseHelper dbHelper = DatabaseHelper();
@@ -45,5 +54,14 @@ class _HomeState extends State<Home> {
         _dbStatus = "Erro ao inicializar o banco de dados: $e";
       });
     }
+  }
+
+  //Função para testar a criação da tabela de produto
+  Future<void> _checkProductTable() async {
+    bool exists = await ProductTable.checkIfTableExists();
+
+    setState(() {
+      _tableStatus = exists ? "Tabela 'Product' foi criada!" : "Tabela 'Product' NÃO existe!";
+    });
   }
 }
