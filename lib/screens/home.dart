@@ -1,5 +1,6 @@
 import 'package:bomhamburguer/data/database.dart';
 import 'package:bomhamburguer/data/product_table.dart';
+import 'package:bomhamburguer/model/product.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -12,6 +13,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String _dbStatus = "Clique para inicializar o banco de dados";
   String _tableStatus = "Clique para verificar a tabela 'Product'";
+  String _statusMessage = "Inicializando...";
+
+  @override
+  void initState() {
+    super.initState();
+    //_addSampleProducts();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +31,12 @@ class _HomeState extends State<Home> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text(_statusMessage),
+            const SizedBox(height: 20),
+            ElevatedButton(onPressed: _addSampleProducts,
+              child: const Text("Criar produtos na tabela product"),
+            ),
+            const SizedBox(height: 80),
             Text(_dbStatus),
             const SizedBox(height: 20),
             ElevatedButton(onPressed: _initializeDatabase,
@@ -56,12 +70,29 @@ class _HomeState extends State<Home> {
     }
   }
 
-  //Função para testar a criação da tabela de produto
+  // Função para testar a criação da tabela de produto
   Future<void> _checkProductTable() async {
     bool exists = await ProductTable.checkIfTableExists();
 
     setState(() {
       _tableStatus = exists ? "Tabela 'Product' foi criada!" : "Tabela 'Product' NÃO existe!";
     });
+  }
+
+  // Função para adicionar produtos na tabela Product
+  Future<void> _addSampleProducts() async {
+    try {
+      await ProductTable.insertProduct(Product(sandwichName:"Cheeseburger", price:5.99));
+      await ProductTable.insertProduct(Product(sandwichName:"Double Burger", price:7.99));
+      await ProductTable.insertProduct(Product(sandwichName:"Chicken Sandwich", price:6.49));
+
+      setState(() {
+        _statusMessage = "Produtos adicionados com sucesso!";
+      });
+    } catch (e) {
+      setState(() {
+        _statusMessage = "Erro ao adicionar produtos: $e";
+      });
+    }
   }
 }
