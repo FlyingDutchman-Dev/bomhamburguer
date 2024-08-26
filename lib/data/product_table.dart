@@ -9,7 +9,8 @@ class ProductTable {
       CREATE TABLE Product(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         sandwichName TEXT NOT NULL,
-        price REAL NOT NULL
+        price REAL NOT NULL,
+        imagePath TEXT NOT NULL
       )
     ''');
     print('Tabela Product criada');
@@ -24,15 +25,12 @@ class ProductTable {
       {
         'sandwichName': product.sandwichName,
         'price': product.price,
+        'imagePath': product.imagePath,
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
-    // Obter todos os produtos após a inserção e imprimir
-    List<Product> allProducts = await getAllProducts();
-    for (var prod in allProducts) {
-      print('ID: ${prod.id}, Name: ${prod.sandwichName}, Price: ${prod.price}');
-    }
+    print("Insert Prod");
 
     return result;
   }
@@ -47,6 +45,7 @@ class ProductTable {
         id: maps[i]['id'],
         sandwichName: maps[i]['sandwichName'],
         price: maps[i]['price'],
+        imagePath: maps[i]['imagePath'],
       );
     });
   }
@@ -62,5 +61,11 @@ class ProductTable {
     print('Resultado da verificação da tabela: $result');
 
     return result.isNotEmpty;
+  }
+
+  // Função para deletar todos os produtos da tabela Product
+  static Future<void> clearProductTable() async {
+    Database db = await DatabaseHelper().database;
+    await db.delete('Product');
   }
 }
