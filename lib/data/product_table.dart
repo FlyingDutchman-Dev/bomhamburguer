@@ -13,7 +13,6 @@ class ProductTable {
         imagePath TEXT NOT NULL
       )
     ''');
-    print('Tabela Product criada');
   }
 
   // Método para adicionar um produto ao banco de dados

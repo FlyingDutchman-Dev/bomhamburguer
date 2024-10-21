@@ -1,3 +1,4 @@
+import 'package:bomhamburguer/data/additional_table.dart';
 import 'package:bomhamburguer/data/product_table.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -28,6 +29,7 @@ class DatabaseHelper {
       onCreate: (db, version) async {
         // Aqui criamos as tabelas
         await ProductTable.createTable(db);
+        await AdditionalTable.createTable(db);
       },
     );
 

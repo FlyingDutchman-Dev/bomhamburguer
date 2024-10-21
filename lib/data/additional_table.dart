@@ -13,7 +13,6 @@ class AdditionalTable {
         imagePath TEXT NOT NULL
       )
     ''');
-    print('Tabela Additional criada');
   }
 
   // Método para adicionar um adicional de produto ao banco de dados
@@ -43,7 +42,7 @@ class AdditionalTable {
     return List.generate(maps.length, (i) {
       return Additional(
         id: maps[i]['id'],
-        addName: maps[i]['sandwichName'],
+        addName: maps[i]['addName'],
         price: maps[i]['price'],
         imagePath: maps[i]['imagePath'],
       );

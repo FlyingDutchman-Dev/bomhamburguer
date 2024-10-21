@@ -25,8 +25,12 @@ class _HomeState extends State<Home> {
           children: [
             const SizedBox(height: 60),
             const Center(
-              child: Text("Olá, bem vindo ao Bom Hamburguer!", style: TextStyle(
-                color: Colors.red
+              child: Text("Olá, bem vindo ao Bom Hamburguer!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.bold,
+                fontSize: 36
               ),),
             ),
             const SizedBox(height: 60),
